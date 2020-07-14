@@ -41,20 +41,21 @@ def take_a_picture():
         cnt += 1
 
 
-RPi.GPIO.output(15, RPi.GPIO.HIGH)
+RPi.GPIO.output(15, RPi.GPIO.LOW)
 print("ready")
 
 while True:
     i = RPi.GPIO.input(18)
     if i == RPi.GPIO.HIGH:
-        RPi.GPIO.output(15, RPi.GPIO.LOW)
-        take_a_picture()
         RPi.GPIO.output(15, RPi.GPIO.HIGH)
+        take_a_picture()
         i = RPi.GPIO.input(18)
         if i == RPi.GPIO.HIGH:
+            RPi.GPIO.output(15, RPi.GPIO.LOW)
             print("finished")
             break
     else:
         time.sleep(0.1)
+    RPi.GPIO.output(15, RPi.GPIO.LOW)
 
 RPi.GPIO.cleanup()

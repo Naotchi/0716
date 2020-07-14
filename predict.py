@@ -4,9 +4,9 @@ import numpy as np
 import tensorflow as tf
 import datetime
 
-model = tf.keras.models.load_model('./model1.h5')
+model = tf.keras.models.load_model('model1.h5')
 
-threshold = 80
+threshold = 60
 
 num = []
 
