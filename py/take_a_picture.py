@@ -3,7 +3,6 @@ import picamera
 import numpy
 from PIL import Image
 import RPi.GPIO  # GPIOを扱うためのライブラリを読み込み
-from subprocess import run
 
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 

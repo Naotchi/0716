@@ -5,7 +5,6 @@ import tensorflow as tf
 import datetime
 import os
 import shutil
-from subprocess import run
 
 path = str(datetime.datetime.now())
 os.mkdir(path)
