@@ -3,15 +3,14 @@ import picamera
 import numpy
 from PIL import Image
 import RPi.GPIO  # GPIOを扱うためのライブラリを読み込み
+from subprocess import run
 
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 RPi.GPIO.setup(18, RPi.GPIO.IN)
 RPi.GPIO.setup(15, RPi.GPIO.OUT)
 
-cnt = 1
-
-def save_image(ndarray, cnt):
+def save_image(ndarray):
 
 
     """picameraによって画像を格納されたnumpyの配列を受け取り、PILライブラリを使ってファイルとして保存する
@@ -25,7 +24,8 @@ def save_image(ndarray, cnt):
 
     """
     im = Image.fromarray(ndarray)
-    im.save('imgs/' + str(cnt) + '.png')
+    im.save('picture.png')
+    im.show()
 
 
 def take_a_picture():
@@ -36,9 +36,8 @@ def take_a_picture():
         time.sleep(2)  # カメラのセットアップが終わるのを待つ
         image = numpy.zeros((240, 320, 3), dtype=numpy.uint8)  # numpy.ndarrayという特殊な型(リストに近い)で3次元配列を定義
         camera.capture(image, 'rgb')
-        save_image(image, cnt)
-        print("saved picture" + str(cnt) + '.png')
-        cnt += 1
+        save_image(image)
+        print("saved")
 
 
 RPi.GPIO.output(15, RPi.GPIO.LOW)
@@ -48,14 +47,15 @@ while True:
     i = RPi.GPIO.input(18)
     if i == RPi.GPIO.HIGH:
         RPi.GPIO.output(15, RPi.GPIO.HIGH)
-        take_a_picture()
+        time.sleep(0.5)
         i = RPi.GPIO.input(18)
         if i == RPi.GPIO.HIGH:
             RPi.GPIO.output(15, RPi.GPIO.LOW)
             print("finished")
             break
+        take_a_picture()
+        RPi.GPIO.output(15, RPi.GPIO.LOW)
     else:
         time.sleep(0.1)
-    RPi.GPIO.output(15, RPi.GPIO.LOW)
 
 RPi.GPIO.cleanup()

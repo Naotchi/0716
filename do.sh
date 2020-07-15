@@ -1,5 +1,4 @@
 #!/bin/bash
-mkdir imgs
-python3 take_a_picture.py
-python3 predict.py
-rm -r imgs
+python3 py/take_a_picture.py
+echo "start predict.py"
+python3 py/predict.py
